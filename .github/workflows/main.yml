@@ -18,42 +18,28 @@ jobs:
     - name: Fetch Campaigns Data
       run: |-
         curl -X GET \
-          -H "X-Super-Client: Heckdivers" \
-          -H "X-Super-Contact: gh/ashortsleeves" \
-          -o campaigns.json.tmp \
-          https://api.helldivers2.dev/api/v1/campaigns || exit 0
+          -H "X-Super-Client: Heckdivers-local" \
+          -H "X-Super-Contact: gh/ashortsleeves-local" \
+          -o campaigns.json \
+          https://api.helldivers2.dev/api/v1/campaigns
         curl -X GET \
-          -H "X-Super-Client: Heckdivers" \
-          -H "X-Super-Contact: gh/ashortsleeves" \
-          -o assignments.json.tmp \
-          https://api.helldivers2.dev/api/v1/assignments || exit 0
+          -H "X-Super-Client: Heckdivers-local" \
+          -H "X-Super-Contact: gh/ashortsleeves-local" \
+          -o assignments.json \
+          https://api.helldivers2.dev/api/v1/assignments
         curl -X GET \
-          -H "X-Super-Client: Heckdivers" \
-          -H "X-Super-Contact: gh/ashortsleeves" \
-          -o newsfeed.json.tmp \
-          https://api.helldivers2.dev/raw/api/NewsFeed/801 || exit 0
+          -H "X-Super-Client: Heckdivers-local" \
+          -H "X-Super-Contact: gh/ashortsleeves-local" \
+          -o newsfeed.json \
+          https://api.helldivers2.dev/raw/api/NewsFeed/801
 
-    - name: Commit and push if data fetched
+    - name: Commit and push if it changed
       run: |-
-        if [ -e "campaigns.json.tmp" ]; then
-          mv campaigns.json.tmp campaigns.json
-          git add campaigns.json
-        fi
-        if [ -e "assignments.json.tmp" ]; then
-          mv assignments.json.tmp assignments.json
-          git add assignments.json
-        fi
-        if [ -e "newsfeed.json.tmp" ]; then
-          mv newsfeed.json.tmp newsfeed.json
-          git add newsfeed.json
-        fi
-
-        if [ -n "$(git status --porcelain)" ]; then
-          timestamp=$(date -u)
-          git config user.name "Automated"
-          git config user.email "actions@users.noreply.github.com"
-          git commit -m "Latest data: ${timestamp}"
-          git push
-        else
-          echo "No changes to commit"
-        fi
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+        git add campaigns.json
+        git add assignments.json
+        git add newsfeed.json
+        timestamp=$(date -u)
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push
