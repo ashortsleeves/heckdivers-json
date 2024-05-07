@@ -1,0 +1,33 @@
+name: Update Campaigns Data
+
+on:
+  push:
+  workflow_dispatch:
+  schedule:
+    - cron:  '*/10 * * * *'
+
+jobs:
+  scheduled:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out this repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1440
+
+    - name: Fetch Campaigns Data
+      run: |
+        curl -X GET \
+          -H "X-Super-Client: Heckdivers-local" \
+          -H "X-Super-Contact: gh/ashortsleeves-local" \
+          -o campaigns.json \
+          https://api.helldivers2.dev/api/v1/campaigns
+
+    - name: Commit and push if it changed
+      run: |-
+        git config user.name "Automated"
+        git config user.email "actions@users.noreply.github.com"
+        git add campaigns.json
+        timestamp=$(date -u)
+        git commit -m "Latest data: ${timestamp}" || exit 0
+        git push
