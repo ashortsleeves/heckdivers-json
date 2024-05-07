@@ -18,18 +18,18 @@ jobs:
     - name: Fetch Campaigns Data
       run: |-
         curl -X GET \
-          -H "X-Super-Client: Heckdivers" \
-          -H "X-Super-Contact: gh/ashortsleeves" \
+          -H "X-Super-Client: Heckdivers-local" \
+          -H "X-Super-Contact: gh/ashortsleeves-local" \
           -o campaigns.json \
           https://api.helldivers2.dev/api/v1/campaigns
         curl -X GET \
-          -H "X-Super-Client: Heckdivers" \
-          -H "X-Super-Contact: gh/ashortsleeves" \
+          -H "X-Super-Client: Heckdivers-local" \
+          -H "X-Super-Contact: gh/ashortsleeves-local" \
           -o assignments.json \
           https://api.helldivers2.dev/api/v1/assignments
         curl -X GET \
-          -H "X-Super-Client: Heckdivers" \
-          -H "X-Super-Contact: gh/ashortsleeves" \
+          -H "X-Super-Client: Heckdivers-local" \
+          -H "X-Super-Contact: gh/ashortsleeves-local" \
           -o newsfeed.json \
           https://api.helldivers2.dev/raw/api/NewsFeed/801
 
