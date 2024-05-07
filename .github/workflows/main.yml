@@ -22,6 +22,10 @@ jobs:
           -H "X-Super-Contact: gh/ashortsleeves-local" \
           -o campaigns.json \
           https://api.helldivers2.dev/api/v1/campaigns
+          -o assignments.json \
+          https://api.helldivers2.dev/api/v1/assignments
+          -o newsfeed.json \
+          https://api.helldivers2.dev/raw/api/NewsFeed/801
 
     - name: Commit and push if it changed
       run: |-
