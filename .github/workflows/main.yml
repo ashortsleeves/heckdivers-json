@@ -79,6 +79,6 @@ jobs:
           git add campaigns.json
           git add assignments.json
           git add newsfeed.json
-          timestamp=$(date -u)
+          timestamp=$(TZ="America/New_York" date +"%Y-%m-%d %I:%M:%S %p")
           git commit -m "Latest data: ${timestamp}" || exit 0
           git push
