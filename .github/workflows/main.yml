@@ -42,7 +42,7 @@ jobs:
       - name: Check if JSON files are empty
         id: check_empty
         run: |
-          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ]; then
+          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ] || [ ! -s "dispatches.json" ]; then
             echo "One or more JSON files are empty."
             echo "::set-output name=empty::true"
           else
@@ -77,7 +77,7 @@ jobs:
       - name: Check if Retry Fetch returned empty JSON files
         if: steps.check_empty.outputs.empty == 'true'
         run: |
-          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ]; then
+          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ] || [ ! -s "dispatches.json" ]; then
             echo "Retry Fetch also returned empty JSON files. Exiting without pushing changes."
             exit 1
           fi
