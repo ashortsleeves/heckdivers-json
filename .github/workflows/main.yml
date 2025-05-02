@@ -38,11 +38,16 @@ jobs:
             -H "X-Super-Contact: gh/ashortsleeves" \
             -o dispatches.json \
             https://api.helldivers2.dev/api/v1/dispatches
+          curl -X GET \
+            -H "X-Super-Client: Heckdivers" \
+            -H "X-Super-Contact: gh/ashortsleeves" \
+            -o space-stations.json \
+            https://api.helldivers2.dev/api/v1/space-stations
 
       - name: Check if JSON files are empty
         id: check_empty
         run: |
-          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ] || [ ! -s "dispatches.json" ]; then
+          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ] || [ ! -s "dispatches.json" ] || [ ! -s "space-stations.json" ]; then
             echo "One or more JSON files are empty."
             echo "::set-output name=empty::true"
           else
@@ -69,15 +74,20 @@ jobs:
             -o newsfeed.json \
             https://api.helldivers2.dev/raw/api/NewsFeed/801
           curl -X GET \
-            -H "X-Super-Client: Heckdivers" \
+            -H "X-Super-Client: Heckdivers-local" \
             -H "X-Super-Contact: gh/ashortsleeves-local" \
             -o dispatches.json \
             https://api.helldivers2.dev/api/v1/dispatches
+          curl -X GET \
+            -H "X-Super-Client: Heckdivers-local" \
+            -H "X-Super-Contact: gh/ashortsleeves-local" \
+            -o space-stations.json \
+            https://api.helldivers2.dev/api/v1/space-stations
 
       - name: Check if Retry Fetch returned empty JSON files
         if: steps.check_empty.outputs.empty == 'true'
         run: |
-          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ] || [ ! -s "dispatches.json" ]; then
+          if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ] || [ ! -s "dispatches.json" ] || [ ! -s "space-stations.json" ]; then
             echo "Retry Fetch also returned empty JSON files. Exiting without pushing changes."
             exit 1
           fi
