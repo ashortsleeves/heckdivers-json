@@ -100,6 +100,7 @@ jobs:
           git add assignments.json
           git add newsfeed.json
           git add dispatches.json
+          git add space-stations.json
           timestamp=$(TZ="America/New_York" date +"%Y-%m-%d %I:%M:%S %p")
           git commit -m "Latest data: ${timestamp}" || exit 0
           git push
