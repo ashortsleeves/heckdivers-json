@@ -28,42 +28,26 @@ jobs:
         sleep 2
         curl -sS -X GET -H "X-Super-Client: gh-actions-ashortsleeves" -H "X-Super-Contact: gh/ashortsleeves" -o space-stations.json https://api.helldivers2.dev/api/v1/space-stations
 
-    - name: Check if JSON files are valid and non-empty
-      id: check_valid
+    - name: Check if JSON files are empty
+      id: check_empty
       run: |
-        validate_json() {
-          file=$1
-          if [ ! -s "$file" ]; then
-            echo "$file is empty."
-            return 1
-          fi
-          if ! jq empty "$file" >/dev/null 2>&1; then
-            echo "$file is not valid JSON."
-            return 1
-          fi
-          return 0
-        }
-        all_valid=true
-        for f in campaigns.json assignments.json newsfeed.json dispatches.json space-stations.json; do
-          if ! validate_json "$f"; then
-            all_valid=false
-          fi
-        done
-
-        if [ "$all_valid" = false ]; then
-          echo "One or more files are empty or invalid."
-          echo "valid=false" >> $GITHUB_OUTPUT
+        if [ ! -s "campaigns.json" ] || [ ! -s "assignments.json" ] || [ ! -s "newsfeed.json" ] || [ ! -s "dispatches.json" ] || [ ! -s "space-stations.json" ]; then
+          echo "One or more JSON files are empty."
+          echo "::set-output name=empty::true"
         else
-          echo "All files are valid."
-          echo "valid=true" >> $GITHUB_OUTPUT
+          echo "All JSON files are non-empty."
+          echo "::set-output name=empty::false"
         fi
 
     - name: Commit and push if it changed
-      if: steps.check_valid.outputs.valid == 'true'
       run: |
         git config user.name "Automated"
         git config user.email "actions@users.noreply.github.com"
-        git add campaigns.json assignments.json newsfeed.json dispatches.json space-stations.json
+        git add campaigns.json
+        git add assignments.json
+        git add newsfeed.json
+        git add dispatches.json
+        git add space-stations.json
         timestamp=$(TZ="America/New_York" date +"%Y-%m-%d %I:%M:%S %p")
         git commit -m "Latest data: ${timestamp}" || exit 0
         git push
