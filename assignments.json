@@ -1,1 +1,1 @@
-[]
+[{"id":3802761778,"progress":[0,0],"title":"MAJOR ORDER","briefing":"Hold Rirga Bay in order to defend the construction of the Void Warp Relay against new horrific abominations, and collect the required quantity of E-711 to order to fuel the Relay and facilitate SEAF support for this Campaign.","description":null,"tasks":[{"type":9,"values":[2,100000,0,0,1,259],"valueTypes":[1,3,8,9,11,12]},{"type":12,"values":[1,4,1,226],"valueTypes":[3,1,11,12]}],"reward":{"type":1,"amount":30},"rewards":[{"type":1,"amount":30}],"expiration":"2026-08-14T12:01:41.8795675Z","flags":0}]
